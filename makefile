@@ -1,4 +1,5 @@
-all: main
+all: server client
 
 server:
-	g++ main.cpp -o test
+	g++ server.cpp -o server
+	g++ client.cpp -o client
