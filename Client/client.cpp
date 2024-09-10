@@ -1,4 +1,4 @@
-#include "socket.h"
+#include "../socket.h"
 #include "client.h"
 
 int main(){
@@ -11,4 +11,5 @@ int main(){
 	Client client(sock_addr);
 
 	client.mk_socket();
+  client.connection();
 }
