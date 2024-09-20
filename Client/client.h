@@ -25,6 +25,10 @@ public:
     accept_music();
   }
 
+  void receive_music(){
+    
+  }
+
 private:
   int socket_d; // дескриптор сокета
   struct sockaddr_in sock_address;
