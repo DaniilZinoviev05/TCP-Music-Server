@@ -1,4 +1,5 @@
 #include "../socket.h"
+#include <fstream>
 
 class Server
 {
@@ -38,10 +39,28 @@ public:
 		if (conn < 0){
 			std::cerr << "Ошибка соединения.\n";
 		}
-		std::cout << "Соединение установлено." << std::endl;
+		std::cout << "Соединение установлено.\n" << std::endl;
 		send_music(conn);
 	}
-	
+
+	// метод для передачи музыки клиенту
+	void send_music(int connection){
+		std::ifstream mp3_file("sample.mp3", std::ios::binary);
+		if(!mp3_file.is_open()){
+			std::cerr << "Файл не найден.\n";
+		}
+		std::cout << "Файл найден. Отправка началась.\n";
+
+		char buffer[1024];
+		while (!mp3_file.eof()){
+			mp3_file.read(buffer, 1024);
+			int bytes_read = mp3_file.gcount();
+			send(connection, buffer, bytes_read, 0);
+		}
+
+		mp3_file.close();
+	}
+
 private:
 	int socket_d; // дескриптор сокета
 	struct sockaddr_in sock_address;

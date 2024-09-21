@@ -4,6 +4,6 @@
 	#include <sys/socket.h>
 	#include <netinet/in.h>
 	#include <fstream>
-	
-	#define PORT 7765
+
+	#define PORT 7755
 #endif

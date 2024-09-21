@@ -22,11 +22,38 @@ public:
       std::cerr << "Клиент: Ошибка соединения.\n";
     }
     std::cout << "Клиент: Соединение установлено." << std::endl;
-    accept_music();
+    receive_music();
   }
 
+  // метод для приема файла
   void receive_music(){
-    
+    std::ofstream file("received_music.mp3", std::ios::binary);
+    if (!file.is_open()) {
+       std::cerr << "Ошибка открытия файла.\n" << std::endl;
+    }
+
+    char buffer[1024];
+    int bytes_received;
+    while ((bytes_received = recv(socket_d, buffer, 1024, 0)) > 0) {
+       file.write(buffer, bytes_received);
+    }
+
+    std::cout << "Файл успешно получен и сохранен\n" << std::endl;
+
+    file.close();
+
+    sf::Music music;
+    if (!music.openFromFile("received_music.mp3")) {
+        std::cerr << "Ошибка открытия музыкального файла.\n";
+        return;
+    }
+
+    std::cout << "Начало воспроизведения музыки.\n";
+    music.play();
+
+    while (music.getStatus() == sf::Music::Playing) {
+        sf::sleep(sf::milliseconds(100));
+    }
   }
 
 private:
